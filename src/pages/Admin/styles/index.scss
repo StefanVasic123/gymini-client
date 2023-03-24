@@ -1,0 +1,84 @@
+.admin-main {
+    display: flex;
+
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+    .content {
+        display: flex;
+        flex-direction: column;
+        flex: 3;
+    }
+    .sidebar-logo {
+        display: flex;
+        height: 10vh;
+        background-color: aquamarine;
+        align-items: center;
+        justify-content: center;
+    }
+    .sidebar-section {
+        display: flex;
+        height: 100%;
+        justify-content: center;
+    }
+    .sidebar-ul {
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+    }
+    .sidebar-li-item {
+        display: flex;
+        justify-content: flex-start;
+        text-decoration: none;
+        list-style-type: none;
+        cursor: pointer;
+    }
+
+    .main-section {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        padding-bottom: 5%;
+        .main-section-subsection {
+            margin: 0 15%;
+            justify-content: center;
+        }
+    }
+    .lg-nmb {
+        font-size: 4em;
+    }
+
+    .two-items {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .main-section-subsection {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chart {
+        width: 85%;
+        height: 85%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .chart-subsection {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    .most-recent {
+        display: flex;
+        flex-direction: column;
+        .h4-title {
+            padding-bottom: 3%;
+        }
+    }
+    
+}
