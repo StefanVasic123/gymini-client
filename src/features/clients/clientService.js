@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../../services/ApiService';
 
 const API_URL = '/api/clients/';
 
@@ -10,7 +10,7 @@ const createClient = async (clientData, token) => {
     },
   };
 
-  const response = await axios.post(API_URL, clientData, config);
+  const response = await api.post(API_URL, clientData, config);
 
   return response.data;
 };
@@ -23,14 +23,14 @@ const getClients = async (token) => {
     },
   };
 
-  const response = await axios.get(API_URL, config);
+  const response = await api.get(API_URL, config);
 
   return response.data;
 };
 
 // Login client
 const loginClient = async (clientData) => {
-  const response = await axios.post(API_URL + 'client-login', clientData);
+  const response = await api.post(API_URL + 'client-login', clientData);
 
   if (response.data) {
     localStorage.setItem('client', JSON.stringify(response.data));
@@ -52,7 +52,7 @@ const deleteClient = async (clientId, token) => {
     },
   };
 
-  const response = await axios.delete(API_URL + clientId, config);
+  const response = await api.delete(API_URL + clientId, config);
 
   return response.data;
 };
@@ -64,7 +64,7 @@ const updateClient = async (clientData, token) => {
     },
   };
 
-  const response = await axios.put(API_URL + clientData.id, clientData, config);
+  const response = await api.put(API_URL + clientData.id, clientData, config);
 
   return response.data;
 };
@@ -76,7 +76,7 @@ const getTodayCreatedClients = async (token) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await axios.get(API_URL + 'today-created-clients', config);
+  const response = await api.get(API_URL + 'today-created-clients', config);
 
   return response.data;
 };
@@ -89,7 +89,7 @@ const getClientsByDate = async (shiftData, token) => {
     },
   };
 
-  const response = await axios.post(
+  const response = await api.post(
     API_URL + 'get-clients-by-date',
     shiftData,
     config
@@ -106,7 +106,7 @@ const getClientsByMonth = async (shiftData, token) => {
     },
   };
 
-  const response = await axios.post(
+  const response = await api.post(
     API_URL + 'get-clients-by-month',
     shiftData,
     config
@@ -123,7 +123,7 @@ const getClientsByYear = async (shiftData, token) => {
     },
   };
 
-  const response = await axios.post(
+  const response = await api.post(
     API_URL + 'get-clients-by-year',
     shiftData,
     config

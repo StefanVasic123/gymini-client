@@ -1,9 +1,9 @@
-import axios from 'axios';
+import api from '../../services/ApiService';
 
 const API_URL = '/api/clients/';
 
 const closeShift = async (shiftData) => {
-  const response = await axios.post(API_URL + 'end-shift', shiftData);
+  const response = await api.post(API_URL + 'end-shift', shiftData);
 
   return response.data;
 };
@@ -14,7 +14,7 @@ const getLastShift = async (token) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await axios.get(API_URL + 'get-last-shift', config);
+  const response = await api.get(API_URL + 'get-last-shift', config);
 
   return response.data;
 };
@@ -27,7 +27,7 @@ const deleteShift = async (shiftId, token) => {
     },
   };
   console.log('deleteShiftService: ', shiftId, token);
-  const response = await axios.delete(
+  const response = await api.delete(
     API_URL + 'delete-shift/' + shiftId,
     config
   );
@@ -43,7 +43,7 @@ const getShiftsByDate = async (shiftData, token) => {
     },
   };
 
-  const response = await axios.post(
+  const response = await api.post(
     API_URL + 'get-shifts-by-date',
     shiftData,
     config

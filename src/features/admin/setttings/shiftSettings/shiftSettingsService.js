@@ -1,9 +1,9 @@
-import axios from 'axios';
+import api from '../../../../services/ApiService';
 
 const API_URL = '/api/clients/';
 
 const setShiftSettings = async (shiftSettingsData) => {
-  const response = await axios.post(
+  const response = await api.post(
     API_URL + 'set-shift-settings',
     shiftSettingsData
   );
@@ -17,7 +17,7 @@ const getShiftSettings = async (token) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await axios.get(API_URL + 'get-shift-settings', config);
+  const response = await api.get(API_URL + 'get-shift-settings', config);
 
   return response.data;
 };

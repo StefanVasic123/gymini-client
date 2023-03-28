@@ -1,9 +1,9 @@
-import axios from 'axios';
+import api from '../../../../services/ApiService';
 
 const API_URL = '/api/clients/';
 
 const setPackagePrices = async (packagePricesData) => {
-  const response = await axios.post(
+  const response = await api.post(
     API_URL + 'set-package-prices',
     packagePricesData
   );
@@ -17,7 +17,7 @@ const getPackagePrices = async (token) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await axios.get(API_URL + 'get-package-prices', config);
+  const response = await api.get(API_URL + 'get-package-prices', config);
 
   return response.data;
 };
