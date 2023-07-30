@@ -42,7 +42,6 @@ function LoginAdmin() {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    console.log('USER: ', user);
     const adminData = {
       email: user.email,
       adminPassword,
