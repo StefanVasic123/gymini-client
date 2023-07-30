@@ -15,9 +15,11 @@ import {
   setShowEndShiftModal,
   setShowEndShiftNotificationModal,
   setShowReportsModal,
+  setShowAdminConfirmationModal,
 } from '../../features/modals/modalSlice';
 import { resetUpdateUserForm } from '../../features/forms/updateUserSlice';
 import { resetAddUserForm } from '../../features/forms/addUserSlice';
+import { resetLoginAdminForm } from '../../features/forms/loginAdminSlice';
 import closebutton from '../../img/closebutton.png';
 import {
   setShowDateReportModal,
@@ -148,8 +150,10 @@ export default function ConfirmationModalImpl(props) {
     dispatch(setShowUpdateClientModal(false));
     dispatch(setShowDeleteClientModal(false));
     dispatch(setShowEndShiftModal(false));
+    dispatch(setShowAdminConfirmationModal(false));
     dispatch(resetUpdateUserForm());
     dispatch(resetAddUserForm());
+    dispatch(resetLoginAdminForm());
     dispatch(setShowEndShiftNotificationModal(false));
     dispatch(setShowReportsModal(false));
     dispatch(setShowDateReportModal(false));

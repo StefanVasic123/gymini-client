@@ -8,11 +8,10 @@ import LoginForm from '../../../components/LoginForm';
 
 function ClientLogin() {
   const [formData, setFormData] = useState({
-    email: '',
     password: '',
   });
 
-  const { email, password } = formData;
+  const { password } = formData;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -44,7 +43,6 @@ function ClientLogin() {
     e.preventDefault();
 
     const clientData = {
-      email,
       password,
     };
 
@@ -58,7 +56,7 @@ function ClientLogin() {
   return (
     <LoginForm
       onSubmit={onSubmit}
-      email={email}
+      email={client}
       onChange={onChange}
       password={password}
     />

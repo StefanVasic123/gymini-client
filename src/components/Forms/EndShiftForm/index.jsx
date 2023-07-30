@@ -193,8 +193,6 @@ const EndShiftForm = () => {
       );
     }
 
-    console.log('handleTotalTurnover: ', handleTotalTurnover());
-
     dispatch(
       setEndShiftNotificationModal({
         date: new Date(),

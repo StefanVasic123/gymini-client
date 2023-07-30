@@ -6,18 +6,27 @@ import { BiBarcodeReader } from 'react-icons/bi';
 import { GiBodyBalance } from 'react-icons/gi';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout, reset } from '../../features/auth/authSlice';
+import { logout, logoutAdmin, reset } from '../../features/auth/authSlice';
 import { resetClients } from '../../features/clients/clientSlice';
 import { setShowAddClientModal } from '../../features/modals/modalSlice';
 import QrReader from 'react-qr-scanner';
+import ConfirmationModal from '../ConfirmationModal';
+import * as Pos from '../ConfirmationModal';
+import { setShowAdminConfirmationModal } from '../../features/modals/modalSlice';
+import { resetLoginAdminForm } from '../../features/forms/loginAdminSlice';
+import LoginAdmin from '../../pages/Authentication/User/LoginAdmin';
+import { setAuthToken } from '../../services/ApiService';
 
 function Header() {
   const [qrReader, setQrReader] = useState(false);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
   const [typeUser, setTypeUser] = useState(false);
   const [typeClient, setTypeClient] = useState(false);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, admin } = useSelector((state) => state.auth);
+  let { showAdminConfirmationModal } = useSelector((state) => state.modals);
   const client = false;
 
   function handleShowModal() {
@@ -25,9 +34,11 @@ function Header() {
   }
 
   function handleAdmin() {
-    // ask for password open modal
-
-    navigate('/admin');
+    if (admin?.adminToken) {
+      navigate('/admin');
+    } else {
+      dispatch(setShowAdminConfirmationModal(true));
+    }
   }
 
   const url = window.location.href;
@@ -65,12 +76,28 @@ function Header() {
     console.log('ERROR: ', err);
   }
 
+  function hideModal() {
+    dispatch(setShowAdminConfirmationModal(false));
+  }
+
+  function handleCloseModal() {
+    dispatch(resetLoginAdminForm());
+  }
+
   const onLogout = () => {
     dispatch(logout());
     dispatch(reset());
     dispatch(resetClients());
     navigate('/');
   };
+
+  function handleAdminLogout() {
+    localStorage.removeItem('admin');
+    dispatch(logoutAdmin());
+    window.location.reload();
+    navigate('/');
+    setAuthToken(null);
+  }
 
   const previewStyle = {
     height: 240,
@@ -112,6 +139,19 @@ function Header() {
                   <BiBarcodeReader size={35} />
                 </li>
               </>
+            )}
+            {admin?.adminToken && (
+              <li
+                style={{
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                }}
+                onClick={handleAdminLogout}
+              >
+                <FaSignOutAlt /> Admin Logout
+              </li>
             )}
             <li>
               <button className='btn' onClick={onLogout}>
@@ -169,6 +209,18 @@ function Header() {
             </li>
           </>
         )}
+        <ConfirmationModal
+          show={showAdminConfirmationModal}
+          headerText='Admin login'
+          handleClose={hideModal}
+          openPos={Pos.CM_TOP_CENTER}
+          containerWidth='50%'
+          showButtons={false}
+          closeBtn={true}
+          handleCloseModal={handleCloseModal}
+        >
+          <LoginAdmin />
+        </ConfirmationModal>
       </ul>
       {qrReader && (
         <div style={{ width: '100%' }}>

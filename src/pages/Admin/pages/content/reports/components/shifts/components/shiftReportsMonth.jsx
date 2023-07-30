@@ -32,9 +32,6 @@ const ShiftsReportsMonth = () => {
 
   const [selectedValue, setSelectedValue] = useState('');
 
-  useEffect(() => {
-    console.log('selectedMonth: ', selectedValue);
-  });
   const handleValueChange = (event) => {
     setSelectedValue(event.target.value);
   };

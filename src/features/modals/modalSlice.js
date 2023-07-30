@@ -7,6 +7,7 @@ const initialState = {
   showEndShifttModal: false,
   showEndShiftNotificationModal: false,
   showReportsModal: false,
+  showAdminConfirmationModal: false,
 };
 
 // show/hide modal
@@ -32,6 +33,9 @@ export const modalSlice = createSlice({
     setShowReportsModal(state, action) {
       state.showReportsModal = action.payload;
     },
+    setShowAdminConfirmationModal(state, action) {
+      state.showAdminConfirmationModal = action.payload;
+    },
   },
 });
 
@@ -42,5 +46,6 @@ export const {
   setShowEndShiftModal,
   setShowEndShiftNotificationModal,
   setShowReportsModal,
+  setShowAdminConfirmationModal,
 } = modalSlice.actions;
 export default modalSlice.reducer;

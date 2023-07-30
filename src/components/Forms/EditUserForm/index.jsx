@@ -43,11 +43,6 @@ const EditUserForm = ({ client }) => {
   const stateSelector = useSelector((state) => state.updateUserFormData);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log('mounted');
-    //  setName({ value: '', edited: false });
-  });
-
   let {
     name: clientName,
     lastName: clientLastName,

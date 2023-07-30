@@ -1,4 +1,4 @@
-import api from '../../services/ApiService';
+import { api } from '../../services/ApiService';
 
 const API_URL = '/api/clients/';
 

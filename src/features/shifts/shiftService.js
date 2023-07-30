@@ -1,4 +1,4 @@
-import api from '../../services/ApiService';
+import { api } from '../../services/ApiService';
 
 const API_URL = '/api/clients/';
 
@@ -26,7 +26,7 @@ const deleteShift = async (shiftId, token) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  console.log('deleteShiftService: ', shiftId, token);
+
   const response = await api.delete(
     API_URL + 'delete-shift/' + shiftId,
     config

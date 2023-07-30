@@ -12,9 +12,12 @@ function Register() {
     email: '',
     password: '',
     password2: '',
+    adminPassword: '',
+    adminPassword2: '',
   });
 
-  const { name, email, password, password2 } = formData;
+  const { name, email, password, password2, adminPassword, adminPassword2 } =
+    formData;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -47,11 +50,15 @@ function Register() {
 
     if (password !== password2) {
       toast.error('Passwords do not match');
+    } else if (adminPassword !== adminPassword2) {
+      toast.error('Admin passwords do not match');
     } else {
       const userData = {
         name,
         email,
         password,
+        adminPassword,
+        adminPassword2,
       };
 
       dispatch(register(userData));
@@ -117,6 +124,30 @@ function Register() {
               name='password2'
               value={password2}
               placeholder='Confirm password'
+              onChange={onChange}
+            />
+          </div>
+
+          <div className='form-group'>
+            <input
+              type='password'
+              className='form-control'
+              id='adminPassword'
+              name='adminPassword'
+              value={adminPassword}
+              placeholder='Enter admin password'
+              onChange={onChange}
+            />
+          </div>
+
+          <div className='form-group'>
+            <input
+              type='password'
+              className='form-control'
+              id='adminPassword2'
+              name='adminPassword2'
+              value={adminPassword2}
+              placeholder='Confirm admin password'
               onChange={onChange}
             />
           </div>
