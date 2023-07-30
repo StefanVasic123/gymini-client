@@ -30,7 +30,7 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route
-              path={'/admin'}
+              path={'/admin/*'}
               element={isAdminAuthorized() ? <Admin /> : <Navigate to='/' />} // Redirect to '/' if not authorized
             />
             <Route path={'/admin/reports'} element={<Admin />} />

@@ -12,7 +12,6 @@ const Admin = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     if (localStorage.getItem('admin')) {
-      console.log('ADMIN: ', admin);
       checkAdminAuthorization(dispatch, admin, user, navigate);
     }
     if (!admin?.adminToken) {
