@@ -123,13 +123,13 @@ export const shiftSlice = createSlice({
       .addCase(getLastShift.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.endShift = action.payload[0].endShift
-          ? action.payload[0].endShift
+        state.endShift = action.payload[0]?.endShift
+          ? action.payload[0]?.endShift
           : '';
-        state.shiftNumber = action.payload[0].shiftNumber;
-        state.shiftDuration = action.payload[0].shiftDuration;
-        state.staffName = action.payload[0].staffName;
-        state.turnover = action.payload[0].turnover;
+        state.shiftNumber = action.payload[0]?.shiftNumber;
+        state.shiftDuration = action.payload[0]?.shiftDuration;
+        state.staffName = action.payload[0]?.staffName;
+        state.turnover = action.payload[0]?.turnover;
       })
       .addCase(getLastShift.rejected, (state, action) => {
         state.isLoading = false;

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -63,13 +63,21 @@ const ShiftDuration = () => {
 
   useEffect(() => {
     // set state values from redux store (db) on initial load
-    if (Boolean(firstShift ? firstShift[1][0] : null)) {
+    if (
+      Boolean(firstShift || firstShift !== undefined ? firstShift[1][0] : null)
+    ) {
       setFirstStart(firstShift[1][0]);
     }
-    if (Boolean(secondShift ? secondShift[2][0] : null)) {
+    if (
+      Boolean(
+        secondShift || secondShift !== undefined ? secondShift[2][0] : null
+      )
+    ) {
       setSecondStart(secondShift[2][0]);
     }
-    if (Boolean(thirdShift ? thirdShift[3][0] : null)) {
+    if (
+      Boolean(thirdShift || thirdShift !== undefined ? thirdShift[3][0] : null)
+    ) {
       setThirdStart(thirdShift[3][0]);
     }
     if (Boolean(firstShift ? firstShift[1][1] : null)) {

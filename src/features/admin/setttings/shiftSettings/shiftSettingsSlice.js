@@ -77,9 +77,9 @@ export const shiftSettingsSlice = createSlice({
       .addCase(getShiftSettings.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.firstShift = action.payload[0].firstShift;
-        state.secondShift = action.payload[0].secondShift;
-        state.thirdShift = action.payload[0].thirdShift;
+        state.firstShift = action.payload[0]?.firstShift;
+        state.secondShift = action.payload[0]?.secondShift;
+        state.thirdShift = action.payload[0]?.thirdShift;
       });
   },
 });

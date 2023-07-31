@@ -59,7 +59,7 @@ export const getClients = createAsyncThunk(
   'clients/getAll',
   async (_, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().auth.user.token;
+      const token = thunkAPI.getState().auth?.user?.token;
 
       return await clientService.getClients(token);
     } catch (error) {

@@ -75,9 +75,9 @@ export const packagePricesSlice = createSlice({
       .addCase(getPackagePrices.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.dailyPrice = action.payload[0].dailyPrice;
-        state.monthlyPrice = action.payload[0].monthlyPrice;
-        state.yearlyPrice = action.payload[0].yearlyPrice;
+        state.dailyPrice = action.payload[0]?.dailyPrice;
+        state.monthlyPrice = action.payload[0]?.monthlyPrice;
+        state.yearlyPrice = action.payload[0]?.yearlyPrice;
       });
   },
 });

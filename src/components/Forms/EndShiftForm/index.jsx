@@ -79,7 +79,7 @@ const EndShiftForm = () => {
       shiftDuration !== (secondShift ? secondShift[2] : false) &&
       shiftDuration !== (thirdShift ? thirdShift[3] : false)
     ) {
-      setShiftDuration(firstShift[1]);
+      setShiftDuration(firstShift && firstShift[1]);
     }
   }
 
@@ -87,7 +87,7 @@ const EndShiftForm = () => {
     handleInitialShift();
     handleClients();
     if (shiftDuration === []) {
-      setShiftDuration(firstShift[1]);
+      setShiftDuration(firstShift && firstShift[1]);
     }
   }, [handleInitialShift, handleClients]);
 
