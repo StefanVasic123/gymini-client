@@ -90,6 +90,40 @@ export const logoutAdmin = createAsyncThunk('auth/logoutAdmin', async () => {
   await authService.logoutAdmin();
 });
 
+export const changeUserPassword = createAsyncThunk(
+  'auth/change-user-password',
+  async (data, thunkAPI) => {
+    try {
+      return await authService.changeUserPassword(data);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const changeAdminPassword = createAsyncThunk(
+  'auth/change-admin-password',
+  async (data, thunkAPI) => {
+    try {
+      return await authService.changeAdminPassword(data);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -133,6 +167,7 @@ export const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
+        state.admin = null;
       })
       .addCase(loginAdmin.pending, (state) => {
         state.isLoading = true;
@@ -150,6 +185,30 @@ export const authSlice = createSlice({
       })
       .addCase(logoutAdmin.fulfilled, (state) => {
         state.admin = null;
+      })
+      .addCase(changeUserPassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(changeUserPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+      })
+      .addCase(changeUserPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(changeAdminPassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(changeAdminPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+      })
+      .addCase(changeAdminPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       });
   },
 });

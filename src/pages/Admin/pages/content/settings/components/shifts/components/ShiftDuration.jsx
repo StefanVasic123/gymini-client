@@ -64,21 +64,31 @@ const ShiftDuration = () => {
   useEffect(() => {
     // set state values from redux store (db) on initial load
     if (
-      Boolean(firstShift || firstShift !== undefined ? firstShift[1][0] : null)
+      Boolean(
+        firstShift || firstShift !== undefined || firstShift !== null
+          ? firstShift && firstShift[1][0]
+          : null
+      )
     ) {
-      setFirstStart(firstShift[1][0]);
+      setFirstStart(firstShift && firstShift[1][0]);
     }
     if (
       Boolean(
-        secondShift || secondShift !== undefined ? secondShift[2][0] : null
+        secondShift || secondShift !== undefined || secondShift !== null
+          ? secondShift && secondShift[2][0]
+          : null
       )
     ) {
-      setSecondStart(secondShift[2][0]);
+      setSecondStart(secondShift && secondShift[2][0]);
     }
     if (
-      Boolean(thirdShift || thirdShift !== undefined ? thirdShift[3][0] : null)
+      Boolean(
+        thirdShift || thirdShift !== undefined || thirdShift !== null
+          ? thirdShift && thirdShift[3][0]
+          : null
+      )
     ) {
-      setThirdStart(thirdShift[3][0]);
+      setThirdStart(thirdShift && thirdShift[3][0]);
     }
     if (Boolean(firstShift ? firstShift[1][1] : null)) {
       setFirstEnd(firstShift[1][1]);

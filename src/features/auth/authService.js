@@ -27,6 +27,7 @@ const login = async (userData) => {
 // Logout user
 const logout = () => {
   localStorage.removeItem('user');
+  localStorage.removeItem('admin');
 };
 
 const loginAdmin = async (userData) => {
@@ -66,6 +67,17 @@ const authAdmin = async ({ adminToken, adminSecret, token }) => {
 const logoutAdmin = () => {
   localStorage.removeItem('admin');
 };
+const changeUserPassword = async (data) => {
+  const response = await api.post(API_URL + 'change-user-password', data);
+
+  return response.data;
+};
+
+const changeAdminPassword = async (data) => {
+  const response = await api.post(API_URL + 'change-admin-password', data);
+
+  return response.data;
+};
 
 const authService = {
   register,
@@ -74,6 +86,8 @@ const authService = {
   loginAdmin,
   logoutAdmin,
   authAdmin,
+  changeUserPassword,
+  changeAdminPassword,
 };
 
 export default authService;
