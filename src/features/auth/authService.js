@@ -79,6 +79,33 @@ const changeAdminPassword = async (data) => {
   return response.data;
 };
 
+const forgotPassword = async (data) => {
+  const response = await api.post(API_URL + 'forgot-password', data);
+
+  return response.data;
+};
+
+const resetPassword = async (token, data) => {
+  const response = await api.post(API_URL + `${token}/reset-password`, data);
+
+  return response.data;
+};
+
+const forgotAdminPassword = async (data) => {
+  const response = await api.post(API_URL + 'forgot-admin-password', data);
+
+  return response.data;
+};
+
+const resetAdminPassword = async (token, data) => {
+  const response = await api.post(
+    API_URL + `${token}/reset-admin-password`,
+    data
+  );
+
+  return response.data;
+};
+
 const authService = {
   register,
   login,
@@ -88,6 +115,10 @@ const authService = {
   authAdmin,
   changeUserPassword,
   changeAdminPassword,
+  forgotPassword,
+  resetPassword,
+  forgotAdminPassword,
+  resetAdminPassword,
 };
 
 export default authService;

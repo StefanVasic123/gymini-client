@@ -60,6 +60,7 @@ function LoginAdmin() {
       onSubmit={onSubmit}
       onChange={onChange}
       adminPassword={adminPassword}
+      user={user}
     />
   );
 }

@@ -169,6 +169,10 @@ h3 {
   transform: scale(0.98);
 }
 
+.bottom-link {
+  padding-top: 20px;
+}
+
 .loadingSpinnerContainer {
   position: fixed;
   top: 0;

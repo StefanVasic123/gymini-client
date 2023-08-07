@@ -124,6 +124,80 @@ export const changeAdminPassword = createAsyncThunk(
   }
 );
 
+export const forgotPassword = createAsyncThunk(
+  'auth/forgot-password',
+  async (data, thunkAPI) => {
+    try {
+      return await authService.forgotPassword(data);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  'auth/:token/reset-password',
+  async (data, thunkAPI) => {
+    const url = new URL(window.location.href);
+    const tokenMatch = url.pathname.match(/token=([^/]+)/);
+    const token = tokenMatch[1];
+    try {
+      return await authService.resetPassword(token, data);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const forgotAdminPassword = createAsyncThunk(
+  'auth/forgot-admin-password',
+  async (data, thunkAPI) => {
+    try {
+      return await authService.forgotAdminPassword(data);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const resetAdminPassword = createAsyncThunk(
+  'auth/:token/reset-admin-password',
+  async (data, thunkAPI) => {
+    const url = new URL(window.location.href);
+    const tokenMatch = url.pathname.match(/token=([^/]+)/);
+    const token = tokenMatch[1];
+    try {
+      return await authService.resetAdminPassword(token, data);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -206,6 +280,54 @@ export const authSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(changeAdminPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(forgotPassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(forgotPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(resetPassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(forgotAdminPassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(forgotAdminPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+      })
+      .addCase(forgotAdminPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(resetAdminPassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(resetAdminPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+      })
+      .addCase(resetAdminPassword.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

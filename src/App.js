@@ -11,6 +11,8 @@ import Admin from './pages/Admin/index';
 import Client from './pages/Client';
 import ClientLogin from './pages/Authentication/Client/ClientLogin';
 import ClientRegister from './pages/Authentication/Client/ClientRegister';
+import ForgotPassword from './pages/Authentication/User/ForgotPassword';
+import ResetPassword from './pages/Authentication/User/ResetPassword';
 
 function App() {
   const adminToken = localStorage.getItem('admin');
@@ -38,7 +40,13 @@ function App() {
             <Route path={'/admin/account'} element={<Admin />} />
             <Route path={'/client'} element={<Client />} />
             <Route path={'/client-login'} element={<ClientLogin />} />
-            <Route path={'client-register'} element={<ClientRegister />} />
+            <Route path={'/client-register'} element={<ClientRegister />} />
+            <Route path={'/forgot-password'} element={<ForgotPassword />} />
+            <Route path={'/:id/reset-password'} element={<ResetPassword />} />
+            <Route
+              path={'/:id/reset-admin-password'}
+              element={<ResetPassword admin={true} />}
+            />
           </Routes>
         </div>
       </Router>

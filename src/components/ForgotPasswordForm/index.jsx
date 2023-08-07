@@ -1,15 +1,15 @@
 import React from 'react';
-import { FaSignInAlt } from 'react-icons/fa';
+import { FaQuestion } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-const LoginForm = ({ onSubmit, email, onChange, password }) => {
+const ForgotPasswordForm = ({ onSubmit, email, onChange }) => {
   return (
     <>
       <section className='heading'>
         <h1>
-          <FaSignInAlt /> Login
+          <FaQuestion /> Forgot Password?
         </h1>
-        <p>Login and start. . .</p>
+        <p>Enter your email</p>
       </section>
 
       <section className='form'>
@@ -26,28 +26,17 @@ const LoginForm = ({ onSubmit, email, onChange, password }) => {
             />
           </div>
           <div className='form-group'>
-            <input
-              type='password'
-              className='form-control'
-              id='password'
-              name='password'
-              value={password}
-              placeholder='Enter password'
-              onChange={onChange}
-            />
-          </div>
-          <div className='form-group'>
             <button type='submit' className='btn btn-block'>
               Submit
             </button>
           </div>
         </form>
         <div className='bottom-link'>
-          <Link to='/forgot-password'>Forgot password?</Link>
+          <Link to='/login'>Back to login</Link>
         </div>
       </section>
     </>
   );
 };
 
-export default LoginForm;
+export default ForgotPasswordForm;
