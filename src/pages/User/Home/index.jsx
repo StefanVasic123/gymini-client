@@ -134,7 +134,22 @@ function Dashboard() {
   return (
     <>
       <section className='main-table'>
-        {activeClients.length > 0 || inactiveClients.length > 0 ? (
+        {user === null && client === null ? (
+          <h3>Registruj se ili se prijavi ako već imaš nalog</h3>
+        ) : isError ? (
+          <>
+            <h3>{message}</h3>
+            <div>
+              <Link
+                to='/login'
+                onClick={() => handleLogout()}
+                style={{ cursor: 'pointer' }}
+              >
+                Nazad na prijavu
+              </Link>
+            </div>
+          </>
+        ) : (
           <>
             <Box
               sx={{
@@ -175,23 +190,6 @@ function Dashboard() {
               page={page}
             />
           </>
-        ) : user === null && client === null ? (
-          <h3>Registruj se ili se prijavi ako već imaš nalog</h3>
-        ) : isError ? (
-          <>
-            <h3>{message}</h3>
-            <div>
-              <Link
-                to='/login'
-                onClick={() => handleLogout()}
-                style={{ cursor: 'pointer' }}
-              >
-                Nazad na prijavu
-              </Link>
-            </div>
-          </>
-        ) : (
-          <h3>Nema klijenata</h3>
         )}
         <ConfirmationModal
           show={showAddClientModal}
