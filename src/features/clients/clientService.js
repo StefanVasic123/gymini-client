@@ -28,6 +28,32 @@ const getClients = async (token) => {
   return response.data;
 };
 
+// Get active user clients
+const getActiveClients = async (token, page) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await api.get(`${API_URL}/active/${page}`, config);
+
+  return response.data;
+};
+
+// Get inactive user clients
+const getInactiveClients = async (token, page) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await api.get(`${API_URL}/inactive/${page}`, config);
+
+  return response.data;
+};
+
 // Login client
 const loginClient = async (clientData) => {
   const response = await api.post(API_URL + 'client-login', clientData);
@@ -143,6 +169,8 @@ const clientService = {
   getClientsByDate,
   getClientsByMonth,
   getClientsByYear,
+  getActiveClients,
+  getInactiveClients,
 };
 
 export default clientService;

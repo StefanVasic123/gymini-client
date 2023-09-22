@@ -5,6 +5,8 @@ const client = JSON.parse(localStorage.getItem('client'));
 
 const initialState = {
   clients: [],
+  activeClients: [],
+  inactiveClients: [],
   client: client ? client : null,
   isError: false,
   isSuccess: false,
@@ -62,6 +64,45 @@ export const getClients = createAsyncThunk(
       const token = thunkAPI.getState().auth?.user?.token;
 
       return await clientService.getClients(token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getActiveClients = createAsyncThunk(
+  'clients/getActive',
+  async (page, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth?.user?.token;
+
+      return await clientService.getActiveClients(token, page);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// Get inactive user clients
+export const getInactiveClients = createAsyncThunk(
+  'clients/getInactive',
+  async (page, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth?.user?.token;
+
+      return await clientService.getInactiveClients(token, page);
     } catch (error) {
       const message =
         (error.response &&
@@ -224,6 +265,32 @@ export const clientSlice = createSlice({
         state.clients = action.payload;
       })
       .addCase(getClients.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getActiveClients.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getActiveClients.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.activeClients = action.payload;
+      })
+      .addCase(getActiveClients.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getInactiveClients.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getInactiveClients.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.inactiveClients = action.payload;
+      })
+      .addCase(getInactiveClients.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

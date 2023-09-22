@@ -4,13 +4,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import AddClientForm from '../../../components/Forms/AddClientForm';
+import { resetClients } from '../../../features/clients/clientSlice';
 import {
-  getClients,
-  resetClients,
+  getActiveClients,
+  getInactiveClients,
 } from '../../../features/clients/clientSlice';
 import { setShowEndShiftModal } from '../../../features/modals/modalSlice';
 import { getShiftSettings } from '../../../features/admin/setttings/shiftSettings/shiftSettingsSlice';
-import { getPackagePrices } from '../../../features/admin/setttings/packages/packageSlice';
+import {
+  getPackagePrices,
+  setPackagePrices,
+} from '../../../features/admin/setttings/packages/packageSlice';
 import Spinner from '../../../components/Spinner';
 import Table from '../../../components/Table';
 import ConfirmationModal from '../../../components/ConfirmationModal';
@@ -43,20 +47,11 @@ const RightBox = styled.div`
 function Dashboard() {
   const [sortVal, setSortVal] = useState('active');
   const [show, setShow] = useState(false);
+  const [page, setPage] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
 
-  let navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const { user } = useSelector((state) => state.auth);
-  const client = null;
-  const userId = user?._id || null;
-
-  let { clients, isLoading, isError, message } = useSelector(
-    (state) => state.clients
-  );
-  let { showAddClientModal, showEndShiftModal, showEndShiftNotificationModal } =
-    useSelector((state) => state.modals);
+  let { clients, activeClients, inactiveClients, isLoading, isError, message } =
+    useSelector((state) => state.clients);
 
   // IMPROVEMENT => this logic to be on backend (call only active clients)
   let modifiedClients = [...clients];
@@ -80,13 +75,25 @@ function Dashboard() {
     }
   });
 
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.auth);
+  const client = null;
+  const userId = user?._id || null;
+
+  let { showAddClientModal, showEndShiftModal, showEndShiftNotificationModal } =
+    useSelector((state) => state.modals);
+
   const menuItems = [
     <MenuItem value={'active'}>Aktivni</MenuItem>,
     <MenuItem value={'not_active'}>Neaktivni</MenuItem>,
   ];
 
   useEffect(() => {
-    dispatch(getClients());
+    // dispatch(getClients());
+    dispatch(getActiveClients(page));
+    dispatch(getInactiveClients(page));
     dispatch(getShiftSettings(userId));
     dispatch(getPackagePrices(userId));
 
@@ -94,7 +101,7 @@ function Dashboard() {
     return () => {
       dispatch(resetClients);
     };
-  }, [user, navigate, isError, message, dispatch]);
+  }, [user, page, navigate, isError, message, dispatch]);
 
   function hideModal() {
     setShow(false);
@@ -106,6 +113,10 @@ function Dashboard() {
 
   function handleSortChange(event) {
     setSortVal(event.target.value);
+  }
+
+  function handleSetPage(page) {
+    setPage(page);
   }
 
   function shiftEnd() {
@@ -123,7 +134,7 @@ function Dashboard() {
   return (
     <>
       <section className='main-table'>
-        {clients.length > 0 ? (
+        {activeClients.length > 0 || inactiveClients.length > 0 ? (
           <>
             <Box
               sx={{
@@ -155,7 +166,14 @@ function Dashboard() {
                 />
               </RightBox>
             </Box>
-            <Table clients={modifiedClients} sortVal={sortVal} />
+            <Table
+              clients={dataFiltered}
+              activeClients={activeClients}
+              inactiveClients={inactiveClients}
+              sortVal={sortVal}
+              handleSetPage={(e) => handleSetPage(e)}
+              page={page}
+            />
           </>
         ) : user === null && client === null ? (
           <h3>Registruj se ili se prijavi ako već imaš nalog</h3>

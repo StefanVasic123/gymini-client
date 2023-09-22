@@ -13,6 +13,7 @@ import {
 } from '../../features/modals/modalSlice';
 import { resetUpdateUserForm } from '../../features/forms/updateUserSlice';
 import { toast } from 'react-toastify';
+import { TablePagination } from '@mui/material';
 
 const StyledTable = styled.table`
   width: 100%;
@@ -32,18 +33,26 @@ const StyledTable = styled.table`
   }
 `;
 
-const Table = (props) => {
+const Table = ({
+  activeClients,
+  inactiveClients,
+  sortVal,
+  handleSetPage,
+  page,
+}) => {
   const [client, setClient] = useState({});
   const [clientId, setClientId] = useState('');
   const [searchAll, setSearchAll] = useState(false);
   const [deleteName, setDeleteName] = useState('');
   const [deleteLastName, setDeleteLastName] = useState('');
-  const { clients, sortVal } = props;
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const dispatch = useDispatch();
   let { showUpdateClientModal, showDeleteClientModal } = useSelector(
     (state) => state.modals
   );
+
+  const clients = sortVal === 'active' ? activeClients : inactiveClients;
 
   function handleClick(clientData, e) {
     if (e.target.innerHTML !== 'x') {
@@ -83,6 +92,14 @@ const Table = (props) => {
     dispatch(resetUpdateUserForm());
   }
 
+  function handleChangePage(event, newPage) {
+    handleSetPage(newPage);
+  }
+
+  function handleChangeRowsPerPage(event) {
+    setRowsPerPage(parseInt(event.target.value, 10));
+  }
+
   return (
     <div>
       <StyledTable>
@@ -98,66 +115,66 @@ const Table = (props) => {
           </tr>
         </thead>
         <tbody>
-          {clients
-            .filter((obj) => obj[sortVal])
-            .sort((a, b) =>
-              sortVal === 'active'
-                ? new Date(a.endDate).getTime() - new Date(b.endDate).getTime()
-                : new Date(b.endDate).getTime() - new Date(a.endDate).getTime()
-            )
-            .map((client, key) => {
-              let day = new Date(client.endDate).getDate();
-              let month = ConvertingService.monthsConverter(
-                new Date(client.endDate).getMonth()
-              );
-              let endMilliseconds = new Date(client.endDate).getTime();
-              let daysLeft = (
-                (endMilliseconds - Date.now()) /
-                86400000
-              ).toFixed(0);
-              const daysLeftRound = daysLeft === '-0' ? '0' : daysLeft;
+          {clients.map((client, key) => {
+            let day = new Date(client.endDate).getDate();
+            let month = ConvertingService.monthsConverter(
+              new Date(client.endDate).getMonth()
+            );
+            let endMilliseconds = new Date(client.endDate).getTime();
+            let daysLeft = ((endMilliseconds - Date.now()) / 86400000).toFixed(
+              0
+            );
+            const daysLeftRound = daysLeft === '-0' ? '0' : daysLeft;
 
-              function colorChange() {
-                if (Number(daysLeftRound) <= 0) {
-                  return 'red';
-                } else if (Number(daysLeftRound) === 1) {
-                  return 'orange';
-                } else if (Number(daysLeftRound) === 2) {
-                  return 'yellow';
-                }
+            function colorChange() {
+              if (Number(daysLeftRound) <= 0) {
+                return 'red';
+              } else if (Number(daysLeftRound) === 1) {
+                return 'orange';
+              } else if (Number(daysLeftRound) === 2) {
+                return 'yellow';
               }
+            }
 
-              return (
-                <tr
-                  onClick={(e) => handleClick(client, e)}
-                  style={{
-                    backgroundColor: colorChange(),
+            return (
+              <tr
+                onClick={(e) => handleClick(client, e)}
+                style={{
+                  backgroundColor: colorChange(),
+                }}
+              >
+                <td>{key}</td>
+                <td>{client.name}</td>
+                <td>{client.lastName}</td>
+                {searchAll && (
+                  <td>{client.active ? 'AKTIVAN' : 'NIJE AKTIVAN'}</td>
+                )}
+                <td>{daysLeftRound}</td>
+                <td>
+                  {day} {month}
+                </td>
+                <td
+                  onClick={() => {
+                    handleDeleteModal(true);
+                    setDeleteName(client.name);
+                    setDeleteLastName(client.lastName);
                   }}
                 >
-                  <td>{key}</td>
-                  <td>{client.name}</td>
-                  <td>{client.lastName}</td>
-                  {searchAll && (
-                    <td>{client.active ? 'AKTIVAN' : 'NIJE AKTIVAN'}</td>
-                  )}
-                  <td>{daysLeftRound}</td>
-                  <td>
-                    {day} {month}
-                  </td>
-                  <td
-                    onClick={() => {
-                      handleDeleteModal(true);
-                      setDeleteName(client.name);
-                      setDeleteLastName(client.lastName);
-                    }}
-                  >
-                    x
-                  </td>
-                </tr>
-              );
-            })}
+                  x
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </StyledTable>
+      <TablePagination
+        component='div'
+        count={100}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
       <ConfirmationModal
         show={showUpdateClientModal}
         headerText='Podaci korisnika'
